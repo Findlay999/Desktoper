@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="Desktoper.View.TabPanels.LabelsTabControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Converters="clr-namespace:Desktoper.Converters"
+             xmlns:local="clr-namespace:Desktoper.View.TabPanels">
+
+    <UserControl.Resources>
+        <Converters:PathToImage x:Key="ImgConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LabelTab">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox Name="List" Grid.Column="0" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Background="#FFFFED7C" BorderThickness="0, 1, 0, 1" 
+                     ItemsSource="{Binding ListOfPrograms, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedItem="{Binding SelectedProgram}" Panel.ZIndex="1" BorderBrush="Black">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding WorkingDirectory, Converter={StaticResource ImgConverter}}"/>
+                        <TextBlock Text="{Binding Name}" Margin="10, 0, 0, 0"  VerticalAlignment="Center" FontSize="14"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.Style>
+                <Style TargetType="ListBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Info, Path=DataContext}" Value="{x:Null}">
+                            <Setter Property="Grid.ColumnSpan" Value="2"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+        </ListBox>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <Grid Name="Info" DataContext="{Binding SelectedProgram}" Panel.ZIndex="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#FFFFED7C" Offset="0"/>
+                            <GradientStop Color="White" Offset="0.5"/>
+                            <GradientStop Color="#FFFFED7C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Border BorderThickness="1, 1, 1, 1" BorderBrush="Black">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="{Binding WorkingDirectory, Converter={StaticResource ImgConverter}}" Width="50" Height="50"/>
+                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="DemiBold"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Border Grid.Row="1" BorderThickness="1, 0, 1, 1" BorderBrush="Black">
+                    <StackPanel Background="#FFFFED7C">
+                        <StackPanel Orientation="Vertical" Margin="2, 0, 0, 0">
+                            <TextBlock Text="Target Path: " FontSize="14" FontWeight="DemiBold"/>
+                            <TextBlock Text="{Binding WorkingDirectory}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="2, 0, 0, 0">
+                            <TextBlock Text="Name: " FontSize="14" FontWeight="DemiBold"/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button Content="Open" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
+                <Button Content="Delete" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

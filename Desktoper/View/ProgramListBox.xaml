@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="Desktoper.View.ProgramListBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Desktoper.View"
+             xmlns:ViewModels="clr-namespace:Desktoper.ViewModel"
+             xmlns:Converters="clr-namespace:Desktoper.Converters"
+             xmlns:TabPanels="clr-namespace:Desktoper.View.TabPanels"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Converters:PathToImage x:Key="ImgConverter" />
+    </UserControl.Resources>
+    
+    <TabControl>
+        <TabItem Name="Labels" Header="Ярлыки">
+            <TabPanels:LabelsTabControl/>
+        </TabItem>
+        <TabItem Name="Sites" Header="Ссылки">
+            <TabPanels:SitesTabControl/>
+        </TabItem>
+        <TabItem Name="Files" Header="Файлы">
+            <TabPanels:FilesTabControl/>
+        </TabItem>
+    </TabControl>
+   
+</UserControl>
