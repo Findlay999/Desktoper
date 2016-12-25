@@ -14,9 +14,34 @@
     </UserControl.Resources>
 
     <Grid Name="Main">
-        <Popup Grid.Row="0" Name="popUP" MaxHeight="200">
+        <Grid Margin="10, 10, 10, 50" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+        </Grid>
+        <Grid Name="InfoGrid" Margin="10, 10, 10, 50" Background="#FFFFED7C">
+            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Список команд">
+            </TextBlock>
+
+            <ListBox Margin="30, 50, 0, 0" BorderThickness="0" ItemsSource="{Binding CommandsInfo, UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" IsHitTestVisible="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox BorderThickness="0, 0, 0, 1" Background="{x:Null}" BorderBrush="Black" Grid.Column="0" Text="{Binding CommandName}" FontFamily="Britannic Bold" FontSize="16" />
+                            <TextBox BorderThickness="0, 0, 0, 1" Background="{x:Null}" BorderBrush="Black"  Grid.Column="1" Text="{Binding CommandDesc}" FontFamily="Times New Roman" FontSize="16"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Popup Grid.Row="0" Name="popUP" MaxHeight="200" PlacementTarget="{Binding ElementName=ConsoleTB}">
             <ListBox Name="List" VerticalAlignment="Top" ItemsSource="{Binding SearchMatches, UpdateSourceTrigger=PropertyChanged}"
-                     Width="{Binding ElementName=Main, Path=ActualWidth}"
+                     Width="{Binding ElementName=ConsoleTB, Path=ActualWidth}"
                      SelectedIndex="{Binding SelIndex, UpdateSourceTrigger=PropertyChanged}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FFE4B35E" BorderBrush="{x:Null}" SelectionChanged="List_SelectionChanged" VerticalContentAlignment="Stretch">
          
@@ -41,7 +66,6 @@
                                 Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left" 
                                 Command="{Binding ElementName=ThisPanel, Path=DataContext.FastOpenCommand}" 
                                 CommandParameter="{Binding}">
-
 
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding ImgPath, Converter={StaticResource ImgConverter}}"/>
@@ -88,9 +112,23 @@
             </Popup.Style>
         </Popup>
 
-        <TextBox VerticalAlignment="Bottom" Text="{Binding ConsoleCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="2"
-        Height="30" FontSize="20"  >
-
+        <TextBox VerticalAlignment="Bottom" Height="30" Margin="10, 0, 10, 0">
+            <TextBox.Effect>
+                <DropShadowEffect Direction="45"/>
+            </TextBox.Effect>
+        </TextBox>
+        <TextBox Focusable="True" VerticalAlignment="Bottom" Text="{Binding ConsoleCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="2"
+        Height="30" FontSize="20" Background="#FFFFF198" Name="ConsoleTB" >
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="10, 0, 10, 0"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=InfoGrid, Path=ActualHeight}" Value="0">
+                            <Setter Property="Margin" Value="0"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
             <TextBox.InputBindings>
                 <KeyBinding Key="Enter" Command="{Binding HandleCommand}"/>
                 <KeyBinding Key="Down" Command="{Binding ScrollResultDown}"/>

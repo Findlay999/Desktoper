@@ -16,10 +16,26 @@
             <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Name="List" Grid.Column="0" 
+        <Grid Margin="10" Grid.Column="0" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Info, Path=DataContext}" Value="{x:Null}">
+                            <Setter Property="Grid.ColumnSpan" Value="2"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
+        
+        <ListBox Name="List" Grid.Column="0" Margin="10"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Background="#FFFFED7C" BorderThickness="0, 1, 0, 1" 
+                     Background="#FFFFED7C" BorderThickness="1, 1, 0, 1"
                      ItemsSource="{Binding ListOfItems.ListOfPrograms, UpdateSourceTrigger=PropertyChanged}"
                      SelectedItem="{Binding SelectedProgram}" Panel.ZIndex="1" BorderBrush="Black">
             <ListBox.ItemTemplate>
@@ -42,7 +58,22 @@
             </ListBox.Style>
         </ListBox>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="11" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=Info, Path=DataContext}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
+        
+        <Grid Grid.Column="1" Margin="11">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="60"/>
@@ -65,7 +96,7 @@
                     <Border BorderThickness="1, 1, 1, 1" BorderBrush="Black">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Image Source="{Binding WorkingDirectory, Converter={StaticResource ImgConverter}}" Width="50" Height="50"/>
-                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="DemiBold"/>
+                            <TextBlock Text="{Binding Name}" TextAlignment="Center" FontSize="16" FontWeight="DemiBold"/>
                         </StackPanel>
                     </Border>
                 </Grid>
@@ -85,15 +116,17 @@
                 </Border>
             </Grid>
 
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Border Grid.Row="1" BorderThickness="1, 0, 1, 1" BorderBrush="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <Button Content="Open" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
-                <Button Content="Delete" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
-            </Grid>
+                    <Button Content="Open" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
+                    <Button Content="Delete" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </UserControl>

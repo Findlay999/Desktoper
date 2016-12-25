@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:Desktoper.View"
         xmlns:ViewModels="clr-namespace:Desktoper.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="700">
+        Title="MainWindow" Height="380" Width="720">
 
-    <Grid Background="#FFFFED7C">
+    <Grid Background="#FF3DA8A3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="*"/>

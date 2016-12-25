@@ -17,7 +17,12 @@
     </UserControl.Resources>
     
     <Grid>
-        <Grid Name="Main">
+        <Grid Margin="10" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0" Direction="360"/>
+            </Grid.Effect>
+        </Grid>
+        <Grid Name="Main" Margin="10" Background="#FFFFED7C">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -26,10 +31,10 @@
 
             <TextBlock Grid.Row="0" Style="{StaticResource HeaderTB}"/>
 
-            <StackPanel Name="MainPanel" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Width="100" Height="50" Content="Файл" Margin="5" Command="{Binding ChangeVisiblePanel}" CommandParameter="File"/>
-                <Button Width="100" Height="50" Content="Ярлык" Margin="5" Command="{Binding ChangeVisiblePanel}" CommandParameter="Label"/>
-                <Button Width="100" Height="50" Content="Ссылку" Margin="5" Command="{Binding ChangeVisiblePanel}" CommandParameter="Site"/>
+            <StackPanel Name="MainPanel" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Width="150" Height="40" Content="Файл" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="File"/>
+                <Button Width="150" Height="40" Content="Ярлык" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="Label"/>
+                <Button Width="150" Height="40" Content="Ссылку" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="Site"/>
 
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
@@ -119,7 +124,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
-                    <Button Grid.Column="0" Content="Назад" FontSize="14" Padding="0" Command="{Binding ChangeVisiblePanel}"/>
+                    <Button Grid.Column="0" Height="40" Content="Назад" FontSize="14" Padding="0" Command="{Binding ChangeVisiblePanel}"/>
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Hidden"/>
@@ -133,7 +138,7 @@
                 </Grid>
 
                 <Grid Grid.Column="2" >
-                    <Button Content="Добавить" FontSize="14" Padding="0" Command="{Binding AddSite}"/>
+                    <Button Content="Добавить" Height="40" FontSize="14" Padding="0" Command="{Binding AddSite}"/>
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Hidden"/>

@@ -5,11 +5,6 @@
         <Setter Property="Margin" Value="20, 10, 0, 0"/>
         <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect BlurRadius="10" ShadowDepth="2"/>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Text" Value="Что добавить?"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding ElementName=AddingFile, Path=Visibility}" Value="Visible">
@@ -25,6 +20,8 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="MainTBlock">
+        <Setter Property="FontFamily" Value="Times New Roman"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="25"/>
@@ -33,15 +30,17 @@
     </Style>
 
     <Style TargetType="TextBox" x:Key="MainTBox">
+        <Setter Property="Background" Value="#FFFFE15A"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Height" Value="25"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Width" Value="150"/>
+        <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#373737" />
+        <Setter Property="Background" Value="#FF6C6C6C" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="SnapsToDevicePixels" Value="True" />

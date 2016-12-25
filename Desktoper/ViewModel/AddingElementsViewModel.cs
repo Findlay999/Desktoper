@@ -7,7 +7,9 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using Desktoper.Model;
+using System.Text.RegularExpressions;
 using System.IO;
+using System.Net;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows;
@@ -76,12 +78,30 @@ namespace Desktoper.ViewModel
         #region Command methods
         private void AddSiteToList(object obj)
         {
+            
+            string imgPath = null;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile("https://www.google.com/s2/favicons?domain_url=" + SiteURL, Environment.CurrentDirectory + SiteName + ".siteIco");
+                    imgPath = Environment.CurrentDirectory + SiteName + ".siteIco";
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
             Site site = (new Site()
             {
                 Name = SiteName,
                 URL = SiteURL,
-                Desc = SiteDesc
+                Desc = SiteDesc,
+                ImgPath = imgPath
             });
+
+
             if (!Items.ListOfSites.Any(x => x.URL == site.URL || x.Name == site.Name))
             {
                 Items.ListOfSites.Add(site);

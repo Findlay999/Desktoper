@@ -3,8 +3,10 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 using System.Windows;
 using System.Windows.Data;
+using Desktoper.Model;
 
 namespace Desktoper.Converters
 {
@@ -14,6 +16,16 @@ namespace Desktoper.Converters
         {
             try
             {
+                FileInfo ds = new FileInfo(value as string);
+                if (ds.Extension == ".siteIco") // if need load site icon
+                {
+                    System.Drawing.Bitmap br = new System.Drawing.Bitmap(value as string);
+                    return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                               br.GetHbitmap(),
+                               IntPtr.Zero,
+                               Int32Rect.Empty,
+                               BitmapSizeOptions.FromEmptyOptions());
+                } 
                 System.Drawing.Icon icon = System.Drawing.Icon.ExtractAssociatedIcon(value as string);
                 return ToImageSource(icon);
             }

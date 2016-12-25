@@ -20,11 +20,24 @@ using Desktoper.Commands;
 
 namespace Desktoper.ViewModel
 {
+    public struct CommandInfo
+    {
+        public string CommandName { get; set; }
+        public string CommandDesc { get; set; }
+
+        public CommandInfo(string Name, string Desc)
+        {
+            CommandName = Name;
+            CommandDesc = Desc;
+        }
+    }
+
     class ConsoleViewModel : INotifyPropertyChanged
     {
-
         #region Variables
         public ClassOfItems Items { get; set; } = ClassOfItems.getInstance();
+
+        public ObservableCollection<CommandInfo> CommandsInfo { get; set; } = new ObservableCollection<CommandInfo>();
 
         private bool AllowSearchMatches = true;
         
@@ -127,6 +140,7 @@ namespace Desktoper.ViewModel
 
         public ConsoleViewModel()
         {
+            FillCommandsInfo();
             HandleCommand = new RelayCommand(DoCommand);
             FastOpenCommand = new RelayCommand(FastCommand);
             ScrollResultDown = new RelayCommand(ScrollDown);
@@ -323,6 +337,15 @@ namespace Desktoper.ViewModel
             catch { return false; };    
         }
 
+        private void FillCommandsInfo()
+        {
+            CommandsInfo.Add(
+                new CommandInfo("OpenFile", "Открыть файл"));
+            CommandsInfo.Add(
+                new CommandInfo("OpenSite", "Открыть ccылку"));
+            CommandsInfo.Add(
+                new CommandInfo("OpenProgram", "Открыть программу"));
+        }
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)
