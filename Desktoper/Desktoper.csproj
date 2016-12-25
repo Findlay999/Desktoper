@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\PathToImage.cs" />
+    <Compile Include="Model\ClassOfItems.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\UFile.cs" />
     <Compile Include="View\TabPanels\FilesTabControl.xaml.cs">

@@ -22,7 +22,10 @@ namespace Desktoper.ViewModel
     class ProgramsViewModel : INotifyPropertyChanged
     {
         #region Fields
-        private static ProgramsViewModel instance;
+
+        public ClassOfItems ListOfItems { get; set; } = ClassOfItems.getInstance();
+
+        private enum Keys { Program, File, Site }
 
         private ICommand deleteElement;
         private ICommand openElement;
@@ -30,15 +33,7 @@ namespace Desktoper.ViewModel
         private Program selectedProgram = null;
         private Site selectedSite = null;
         private UFile selectedFile = null;
-
-        public ObservableCollection<Program> ListOfPrograms { get; set; }
-        public ObservableCollection<Site> ListOfSites { get; set; }
-        public ObservableCollection<UFile> ListOfFiles { get; set; }
-
-       
-        private static ProgramsViewModel _instance = new ProgramsViewModel();
-        public static ProgramsViewModel Instance { get { return _instance; } }
-    
+  
         #endregion
 
         #region Getters and Setters
@@ -88,32 +83,14 @@ namespace Desktoper.ViewModel
         #region Constructors
         public ProgramsViewModel() 
         {
-            ListOfPrograms = new ObservableCollection<Program>();
-            ListOfFiles = new ObservableCollection<UFile>();
-            ListOfSites = new ObservableCollection<Site>();
-
-            ListOfPrograms.CollectionChanged += ListOfPrograms_CollectionChanged;
             DeleteElement = new RelayCommand(DeleteElm, x => x != null);
             OpenElement = new RelayCommand(OpenElm);
-
-            if (System.IO.File.Exists("List.dat"))
-            {
-                Desearialize("List.dat");
-            }
-        }
-
-        public static ProgramsViewModel getInstance()
-        {
-            if (instance == null)
-                instance = new ProgramsViewModel();
-            return instance;
         }
         #endregion
 
         #region Other Methods
 
-       
-    
+ 
         #endregion
 
         public void DeleteElm(object obj)
@@ -122,7 +99,7 @@ namespace Desktoper.ViewModel
             {
                 if (MessageBox.Show("Delete this program?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    ListOfPrograms.Remove(SelectedProgram);
+                    ListOfItems.ListOfPrograms.Remove(SelectedProgram);
                 }
             }
 
@@ -130,7 +107,7 @@ namespace Desktoper.ViewModel
             {
                 if (MessageBox.Show("Delete this site?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    ListOfSites.Remove(SelectedSite);
+                    ListOfItems.ListOfSites.Remove(SelectedSite);
                 }
             }
 
@@ -138,7 +115,7 @@ namespace Desktoper.ViewModel
             {
                 if (MessageBox.Show("Delete this file?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    ListOfFiles.Remove(SelectedFile);
+                    ListOfItems.ListOfFiles.Remove(SelectedFile);
                 }
             }
         }
@@ -168,39 +145,12 @@ namespace Desktoper.ViewModel
             }
         }
 
-        public Task SaveData(string FileName)
-        {
-            try
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream stream = new FileStream(FileName, FileMode.OpenOrCreate))
-                {
-                    formatter.Serialize(stream, ListOfPrograms);
-                }
-            }
-            catch(IOException) { /*if already saving - don`t save */ }
+ 
 
-            return Task.FromResult(0);
-        }
 
-        public void Desearialize(string FileName)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream stream = new FileStream(FileName, FileMode.OpenOrCreate))
-            {
-                if (stream.Length != 0)
-                {
-                    ObservableCollection<Program> Ds = new ObservableCollection<Program>((ObservableCollection<Program>)formatter.Deserialize(stream));
+       
 
-                    foreach(Program ds in Ds)
-                    {
-                        ListOfPrograms.Add(ds);
-                    }
-                }
-            }
-        }
         #region PropertiesChanged
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)
         {
@@ -208,11 +158,6 @@ namespace Desktoper.ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
-        }
-
-        private async void ListOfPrograms_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            await SaveData("List.dat");
         }
         #endregion
     }

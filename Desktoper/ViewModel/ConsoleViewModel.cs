@@ -22,14 +22,20 @@ namespace Desktoper.ViewModel
 {
     class ConsoleViewModel : INotifyPropertyChanged
     {
-        public ProgramsViewModel AllPrograms { get; set; } = ProgramsViewModel.getInstance();
+
+        #region Variables
+        public ClassOfItems Items { get; set; } = ClassOfItems.getInstance();
 
         private bool AllowSearchMatches = true;
         
-        private string[] AllCommands = { "open", "remove", "add", "GoTo" };
+        private string[] ProgramCommands = { "OpenProgram" };
+        private string[] FileCommands = { "OpenFile" };
+        private string[] SiteCommands = { "OpenSite" };
 
+        private string console_command;
+
+        private enum Keys  { Program, File, Site }       
         private int sel_index = -1;
-
         public int SelIndex
         {
             get { return sel_index; }
@@ -40,9 +46,11 @@ namespace Desktoper.ViewModel
             }
         }
 
-        public ObservableCollection<Program> searchMatches;
+        public ObservableCollection<Object> searchMatches;
+        #endregion
 
-        public ObservableCollection<Program> SearchMatches
+        #region GetSet
+        public ObservableCollection<Object> SearchMatches
         {
             get
             {
@@ -55,8 +63,26 @@ namespace Desktoper.ViewModel
             }
         }
 
-        private ICommand fastOpen_command;
+        public string ConsoleCommand
+        {
+            get { return console_command; }
+            set
+            {
+                console_command = value;
+                OnPropertyChanged("ConsoleCommand");
+                FindMatches();
+            }
+        }
+        #endregion
 
+        #region Commands Variables
+        private ICommand fastOpen_command;
+        private ICommand scroll_resultDown;
+        private ICommand scroll_resultUp;
+        private ICommand handlecommand;
+        #endregion
+
+        #region Commands GetSet 
         public ICommand FastOpenCommand
         {
             get { return fastOpen_command; }
@@ -67,8 +93,6 @@ namespace Desktoper.ViewModel
             }
         }
 
-        private ICommand scroll_resultDown;
-
         public ICommand ScrollResultDown
         {
             get { return scroll_resultDown; }
@@ -78,8 +102,6 @@ namespace Desktoper.ViewModel
                 OnPropertyChanged("ScrollResultDown");
             }
         }
-
-        private ICommand scroll_resultUp;
 
         public ICommand ScrollResultUp
         {
@@ -92,8 +114,6 @@ namespace Desktoper.ViewModel
 
         }
 
-        private ICommand handlecommand;
-
         public ICommand HandleCommand
         {
             get { return handlecommand; }
@@ -103,19 +123,7 @@ namespace Desktoper.ViewModel
                 OnPropertyChanged("HandleCommand");
             }
         }
-        
-        private string console_command;
-
-        public string ConsoleCommand
-        {
-            get { return console_command; }
-            set
-            {                
-                console_command = value;
-                OnPropertyChanged("ConsoleCommand");
-                FindMatches();
-            }
-        }
+        #endregion
 
         public ConsoleViewModel()
         {
@@ -131,8 +139,8 @@ namespace Desktoper.ViewModel
             {
                 SelIndex++;
                 var LocalCommand = CheckCommand();
-                AllowSearchMatches = false;                
-                ConsoleCommand = LocalCommand.Item1 + " " + SearchMatches[SelIndex].Name;
+                AllowSearchMatches = false;
+                RewriteCommandByItem(LocalCommand);
                 AllowSearchMatches = true;
             }
         }
@@ -144,8 +152,24 @@ namespace Desktoper.ViewModel
                 SelIndex--;
                 var LocalCommand = CheckCommand();
                 AllowSearchMatches = false;
-                ConsoleCommand = LocalCommand.Item1 + " " + SearchMatches[SelIndex].Name;
+                RewriteCommandByItem(LocalCommand);
                 AllowSearchMatches = true;
+            }
+        }
+
+        private void RewriteCommandByItem(Tuple<string,string,Keys> LocalCommand)
+        {
+            if (SearchMatches[SelIndex] is Program)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (SearchMatches[SelIndex] as Program).Name;
+            }
+            if (SearchMatches[SelIndex] is Site)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (SearchMatches[SelIndex] as Site).Name;
+            }
+            if (SearchMatches[SelIndex] is UFile)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (SearchMatches[SelIndex] as UFile).Name;
             }
         }
 
@@ -154,14 +178,34 @@ namespace Desktoper.ViewModel
             if (AllowSearchMatches)
             {
                 SelIndex = -1;
-                SearchMatches = new ObservableCollection<Program>();
+                SearchMatches = new ObservableCollection<Object>();
                 if (String.IsNullOrEmpty(ConsoleCommand))
                 {
                     return;
                 }
                 var LocalCommand = CheckCommand();
 
-                foreach (Program prog in AllPrograms.ListOfPrograms)
+                if(LocalCommand.Item3 == Keys.Program)
+                foreach (Program prog in Items.ListOfPrograms)
+                {
+                    if (CompareWithoutCaseAndSpace(prog.Name, LocalCommand.Item2))
+                    {
+                        SearchMatches.Add(prog);
+                    }
+                }
+
+                if (LocalCommand.Item3 == Keys.Site)
+                foreach (Site prog in Items.ListOfSites)
+                {
+                    if (CompareWithoutCaseAndSpace(prog.Name, LocalCommand.Item2))
+                    {
+                        SearchMatches.Add(prog);
+                    }
+                }
+
+                if (LocalCommand.Item3 == Keys.File)
+
+                foreach (UFile prog in Items.ListOfFiles)
                 {
                     if (CompareWithoutCaseAndSpace(prog.Name, LocalCommand.Item2))
                     {
@@ -174,8 +218,21 @@ namespace Desktoper.ViewModel
         private void FastCommand(object obj)
         {
             var LocalCommand = CheckCommand();
-            ConsoleCommand = LocalCommand.Item1 + " " + (obj as Program).Name;
-            SearchMatches = new ObservableCollection<Program>();
+
+            if (LocalCommand.Item3 == Keys.Program)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Program).Name;
+            }
+            if(LocalCommand.Item3 == Keys.File)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as UFile).Name;
+            }
+            if(LocalCommand.Item3 == Keys.Site)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Site).Name;
+            }
+
+            SearchMatches = new ObservableCollection<Object>();
             DoCommand(null);
         }
 
@@ -184,18 +241,25 @@ namespace Desktoper.ViewModel
             var LocalCommand = CheckCommand();
             try
             {
-                if (LocalCommand.Item1 == "Open" || LocalCommand.Item1 == "open")
+                if (LocalCommand.Item1 == "OpenProgram")
                 {
-                    var command = ConsoleCommand.Remove(0, 5);
+                    var command = ConsoleCommand.Remove(0, "OpenProgram".Length + 1);
                     System.Diagnostics.Process.Start(
-                        AllPrograms.ListOfPrograms.First(x => String.Compare(x.Name, command, true) == 0).WorkingDirectory);
+                        Items.ListOfPrograms.First(x => String.Compare(x.Name, command, true) == 0).WorkingDirectory);
                 }
                 
-                if(LocalCommand.Item1 == "GoTo" || LocalCommand.Item1 == "Goto")
+                if(LocalCommand.Item1 == "OpenSite")
                 {
-                    var command = ConsoleCommand.Remove(0, 5);
-                    System.Diagnostics.Process.Start("http://" +
-                        AllPrograms.ListOfSites.First(x => String.Compare(x.Name, command, true) == 0).URL); 
+                    var command = ConsoleCommand.Remove(0, "OpenSite".Length + 1);
+                    System.Diagnostics.Process.Start(
+                        Items.ListOfSites.First(x => String.Compare(x.Name, command, true) == 0).URL); 
+                }
+
+                if (LocalCommand.Item1 == "OpenFile")
+                {
+                    var command = ConsoleCommand.Remove(0, "OpenFile".Length + 1);
+                    System.Diagnostics.Process.Start(
+                        Items.ListOfFiles.First(x => String.Compare(x.Name, command, true) == 0).FilePath);
                 }
             }
             catch
@@ -205,9 +269,36 @@ namespace Desktoper.ViewModel
             ConsoleCommand = null;
         }
 
-        private Tuple<string, string> CheckCommand()
+        private Tuple<string, string, Keys> CheckCommand()
         {
-            foreach (string command in AllCommands)
+            var Result = FindCommand(ProgramCommands);
+            if (Result != null)
+            {
+                return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.Program);
+            }
+            else
+            {
+                Result = FindCommand(SiteCommands);
+                if (Result != null)
+                {
+                    return new Tuple< string, string, Keys> (Result.Item1, Result.Item2, Keys.Site);
+                }
+                else
+                {
+                    Result = FindCommand(FileCommands);
+                    if(Result != null)
+                    {
+                        return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.File);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private Tuple<string, string> FindCommand(string[] CommandsList)
+        {
+            foreach (string command in CommandsList)
             {
                 if (ConsoleCommand.Length >= command.Length && ConsoleCommand.Substring(0, command.Length).ToLower() == command.ToLower())
                 {
@@ -232,6 +323,7 @@ namespace Desktoper.ViewModel
             catch { return false; };    
         }
 
+        #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)
         {
@@ -240,5 +332,6 @@ namespace Desktoper.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
+        #endregion
     }
 }

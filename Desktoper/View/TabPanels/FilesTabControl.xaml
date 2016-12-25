@@ -20,7 +20,7 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      Background="#FFFFED7C" BorderThickness="0, 1, 0, 1" 
-                     ItemsSource="{Binding ListOfFiles, UpdateSourceTrigger=PropertyChanged}"
+                     ItemsSource="{Binding ListOfItems.ListOfFiles, UpdateSourceTrigger=PropertyChanged}"
                      SelectedItem="{Binding SelectedFile}" Panel.ZIndex="1" BorderBrush="Black">
             <ListBox.ItemTemplate>
                 <DataTemplate>

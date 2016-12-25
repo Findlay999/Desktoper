@@ -20,7 +20,7 @@ namespace Desktoper.View
     {
         public ProgramListBox()
         {
-            this.DataContext = ProgramsViewModel.getInstance();
+            this.DataContext = new ProgramsViewModel();            
             InitializeComponent();
         }
     }

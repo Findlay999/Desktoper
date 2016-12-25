@@ -44,7 +44,7 @@
 
 
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding WorkingDirectory, Converter={StaticResource ImgConverter}}"/>
+                                <Image Source="{Binding ImgPath, Converter={StaticResource ImgConverter}}"/>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0"/>
                             </StackPanel>
 

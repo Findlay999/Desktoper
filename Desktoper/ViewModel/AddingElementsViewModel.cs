@@ -64,7 +64,7 @@ namespace Desktoper.ViewModel
             }
         }
 
-        public ProgramsViewModel Programs { get; set; } = ProgramsViewModel.getInstance();
+        private ClassOfItems Items { get; set; } = ClassOfItems.getInstance();
         public string[] Types { get; set; } = new string[] { "File", "Label", "Site" };
 
         public AddingElementsViewModel()
@@ -76,13 +76,16 @@ namespace Desktoper.ViewModel
         #region Command methods
         private void AddSiteToList(object obj)
         {
-            Programs.ListOfSites.Add(new Site()
+            Site site = (new Site()
             {
                 Name = SiteName,
                 URL = SiteURL,
                 Desc = SiteDesc
             });
-            
+            if (!Items.ListOfSites.Any(x => x.URL == site.URL || x.Name == site.Name))
+            {
+                Items.ListOfSites.Add(site);
+            }
         }
 
         private void ChangePanel(object obj)
@@ -124,11 +127,12 @@ namespace Desktoper.ViewModel
                 UFile file = new UFile()
                 {
                     Name = info.Name.Replace(info.Extension, null),
-                    FilePath = info.FullName
+                    FilePath = info.FullName,
+                    ImgPath = info.FullName
                 };
-                if(!Programs.ListOfFiles.Any(x => x.FilePath == file.FilePath))
+                if(!Items.ListOfFiles.Any(x => x.FilePath == file.FilePath))
                 {
-                    Programs.ListOfFiles.Add(file);
+                    Items.ListOfFiles.Add(file);
                 }
             }
         }
@@ -145,10 +149,11 @@ namespace Desktoper.ViewModel
                 {
                     Name = info.Name.Replace(info.Extension, null),
                     WorkingDirectory = link.TargetPath,
+                    ImgPath = link.TargetPath
                 };
 
-                if (!Programs.ListOfPrograms.Any(x => x.WorkingDirectory == prog.WorkingDirectory))
-                    Programs.ListOfPrograms.Add(prog);
+                if (!Items.ListOfPrograms.Any(x => x.WorkingDirectory == prog.WorkingDirectory))
+                    Items.ListOfPrograms.Add(prog);
             }
         }
         #endregion
