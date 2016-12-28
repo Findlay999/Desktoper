@@ -13,21 +13,24 @@
         <Converters:PathToImage x:Key="ImgConverter" />
     </UserControl.Resources>
 
-    <Grid Background="White">
-        <TabControl>
+    <Grid Margin="0, 0, 0, 0" Background="White">
+        <TabControl Margin="0" TabStripPlacement="Right">
+            <TabControl.Effect>
+                <DropShadowEffect/>
+            </TabControl.Effect>
             <TabControl.Resources>
                 <Style TargetType="TabControl">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabControl}">
                                 <Grid KeyboardNavigation.TabNavigation="Local">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
                                     <TabPanel x:Name="HeaderPanel"
-                                              Grid.Row="0"
+                                              Grid.Column="1"
                                               Panel.ZIndex="1"
                                               Margin="0,0,4,-1"
                                               IsItemsHost="True"
@@ -35,8 +38,8 @@
                                               Background="Transparent" />
 
                                     <Border x:Name="Border"
-                                            Grid.Row="1"
-                                            BorderThickness="0"
+                                            Grid.Column="0"
+                                            BorderThickness="0, 0, 0, 0"
                                             KeyboardNavigation.TabNavigation="Local"
                                             KeyboardNavigation.DirectionalNavigation="Contained"
                                             KeyboardNavigation.TabIndex="2">
@@ -46,7 +49,7 @@
                                         </Border.Background>
 
                                         <Border.BorderBrush>
-                                            <SolidColorBrush Color="White"/>
+                                            <SolidColorBrush Color="Black"/>
                                         </Border.BorderBrush>
 
                                         <ContentPresenter x:Name="PART_SelectedContentHost"
@@ -59,10 +62,21 @@
                     </Setter>
                 </Style>
                 <Style TargetType="TabItem">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter Content="{TemplateBinding Content}">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="0" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
-                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Black" CornerRadius="4,4,0,0" Margin="2,0" Background="#FFE83931">
+                                <Border Name="Border" BorderThickness="2" Height="50" BorderBrush="#FF3DA8A3" CornerRadius="0,4,4,0" Margin="0,0,0,10">
                                     <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"

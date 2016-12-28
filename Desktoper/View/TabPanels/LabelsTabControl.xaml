@@ -76,7 +76,7 @@
         <Grid Grid.Column="1" Margin="11">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="90"/>
             </Grid.RowDefinitions>
 
             <Grid Name="Info" DataContext="{Binding SelectedProgram}" Panel.ZIndex="0">
@@ -121,10 +121,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Button Content="Open" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
                     <Button Content="Delete" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
+                    <Button Content="Hide Panel" Grid.Row="2" Command="{Binding HideElement}" CommandParameter="{Binding SelectedProgram}"/>
                 </Grid>
             </Border>
         </Grid>

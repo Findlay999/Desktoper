@@ -29,6 +29,7 @@ namespace Desktoper.ViewModel
 
         private ICommand deleteElement;
         private ICommand openElement;
+        private ICommand hideElement;
 
         private Program selectedProgram = null;
         private Site selectedSite = null;
@@ -78,12 +79,19 @@ namespace Desktoper.ViewModel
             get { return openElement; }
             set { openElement = value; }
         }
+
+        public ICommand HideElement
+        {
+            get { return hideElement; }
+            set { hideElement = value; }
+        }
         #endregion
  
         #region Constructors
         public ProgramsViewModel() 
         {
             DeleteElement = new RelayCommand(DeleteElm, x => x != null);
+            HideElement = new RelayCommand(HideElm);
             OpenElement = new RelayCommand(OpenElm);
         }
         #endregion
@@ -92,6 +100,24 @@ namespace Desktoper.ViewModel
 
  
         #endregion
+
+        public void HideElm(object obj)
+        {
+            if (typeof(Program) == obj.GetType())
+            {
+                SelectedProgram = null;
+            }
+
+            if (typeof(Site) == obj.GetType())
+            {
+                SelectedSite = null;
+            }
+
+            if (typeof(UFile) == obj.GetType())
+            {
+                SelectedFile = null;
+            }
+        }
 
         public void DeleteElm(object obj)
         {

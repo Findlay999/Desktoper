@@ -71,5 +71,10 @@ namespace Desktoper.View
                 this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2; 
             }
         }
+
+        private void DoubleAnimation_Completed(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

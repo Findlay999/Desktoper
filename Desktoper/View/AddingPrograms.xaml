@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <Grid>
+    <Grid Background="Transparent">
         <Grid Margin="10" Background="White">
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0" Direction="360"/>

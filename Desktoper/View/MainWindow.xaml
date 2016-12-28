@@ -7,32 +7,80 @@
         xmlns:ViewModels="clr-namespace:Desktoper.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="380" Width="720">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/MainAndRightPanel.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Grid Background="#FF3DA8A3">
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Name="RightPanel">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>
-            
-            <Button Margin="0" Click="Button_Click"/>
-            <Button Margin="0, 50, 0, 0" Click="Button_Click_1"/>
-            <Button Margin="0, 100, 0, 0" Click="Button_Click_2"/>
+        <Border Grid.Column="0" Background="#FFFFED7C" CornerRadius="0, 5, 5, 0">
+            <Grid Name="RightPanel" Margin="0, 0, 0, 0" Grid.Column="0" Panel.ZIndex="2" HorizontalAlignment="Left" Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
 
-            <Button Grid.Row="1" Background="red" Click="Button_Click_3">
-                        
-            </Button>
+                <Grid Background="Transparent" Margin="10">
+                    <StackPanel>
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Добавить" Padding="0" Grid.Row="0" Click="Button_Click" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Cписок" Padding="0" Grid.Row="1" Click="Button_Click_1" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Консоль" Padding="0" Grid.Row="2" Click="Button_Click_2" />
+                    </StackPanel>
+
+
+                </Grid>
+
+                <Button Grid.Row="1" Grid.Column="0" Background="red" Click="Button_Click_3">
+
+                </Button>
+
+
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Width" Value="10"/>
+                        <Setter Property="Grid.ColumnSpan" Value="1"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:1" To="150" Storyboard.TargetProperty="Width">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:1" From="150" To="10" Storyboard.TargetProperty="Width"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" Name="MainPanel">
+            <local:AddingPrograms  Visibility="Hidden" x:Name="add"/>
+            <local:ProgramListBox  Visibility="Visible" x:Name="prog"/>
+            <local:ConsolePanel  Visibility="Hidden" x:Name="Cons" ClipToBounds="False"/>
+
+
         </Grid>
-
-
-        <local:AddingPrograms Grid.Column="1" Visibility="Hidden" x:Name="add"/>
-        <local:ProgramListBox Grid.Column="1" Visibility="Visible" x:Name="prog"/>
-        <local:ConsolePanel Grid.Column="1" Visibility="Hidden" x:Name="Cons" ClipToBounds="False"/>
 
     </Grid>
 </Window>
