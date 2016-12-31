@@ -5,7 +5,7 @@
     <Style TargetType="Button" x:Key="MenuButtons">
         <Setter Property="Background" Value="#FF6C6C6C" />
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="Margin" Value="0, 0, 0, 5"/>
+        <Setter Property="Margin" Value="0, 0, 0, 0"/>
         <Setter Property="FontSize" Value="15" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
 
@@ -22,7 +22,7 @@
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
-                                                    <SplineThicknessKeyFrame KeyTime="00:00:0.2" Value="0, 0, 0, 0" />
+                                                    <SplineThicknessKeyFrame KeyTime="00:00:0.2" Value="-10, 0, 10, 0" />
                                                 </ThicknessAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </BeginStoryboard>

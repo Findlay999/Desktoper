@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Desktoper.View.SettingsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Desktoper.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/SettingsStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid Margin="10" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect/>
+            </Grid.Effect>
+        </Grid>
+        <Grid Margin="10" Background="#FFFFED7C">
+            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Настройки"/>
+
+            <StackPanel Margin="30, 50, 0, 0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource SettHeader}" Text="Путь для ярлыков"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource SettHeader}" Text="Отображать поверх остальных программ"/>
+                    <CheckBox IsChecked="{Binding IsOnTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource SettHeader}" Text="Автозапуск"/>
+                    <CheckBox IsChecked="{Binding IsStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

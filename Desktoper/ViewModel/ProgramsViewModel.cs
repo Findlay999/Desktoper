@@ -171,11 +171,6 @@ namespace Desktoper.ViewModel
             }
         }
 
- 
-
-
-       
-
         #region PropertiesChanged
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)

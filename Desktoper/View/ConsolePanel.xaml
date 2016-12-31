@@ -20,8 +20,7 @@
             </Grid.Effect>
         </Grid>
         <Grid Name="InfoGrid" Margin="10, 10, 10, 50" Background="#FFFFED7C">
-            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Список команд">
-            </TextBlock>
+            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Список команд"/>
 
             <ListBox Margin="30, 50, 0, 0" BorderThickness="0" ItemsSource="{Binding CommandsInfo, UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" IsHitTestVisible="False">
                 <ListBox.ItemTemplate>

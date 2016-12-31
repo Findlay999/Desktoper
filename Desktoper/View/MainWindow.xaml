@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Desktoper.View"
         xmlns:ViewModels="clr-namespace:Desktoper.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="380" Width="720">
+        Title="MainWindow" Height="380" Width="720" Topmost="{Binding IsOnTop, UpdateSourceTrigger=PropertyChanged}">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,7 +22,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Background="#FFFFED7C" CornerRadius="0, 5, 5, 0">
+        <Border Grid.Column="0" Margin="0, 0, 2, 0" Background="#FFFFED7C" CornerRadius="0, 5, 5, 0">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" Direction="0"/>
+            </Border.Effect>
             <Grid Name="RightPanel" Margin="0, 0, 0, 0" Grid.Column="0" Panel.ZIndex="2" HorizontalAlignment="Left" Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -31,28 +34,29 @@
 
                 <Grid Background="Transparent" Margin="10">
                     <StackPanel>
-                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Добавить" Padding="0" Grid.Row="0" Click="Button_Click" />
-                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Cписок" Padding="0" Grid.Row="1" Click="Button_Click_1" />
-                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" Height="30" Content="Консоль" Padding="0" Grid.Row="2" Click="Button_Click_2" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"  Content="Добавить" Padding="0" Grid.Row="0" Click="Button_Click" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"  Content="Cписок" Padding="0" Grid.Row="1" Click="Button_Click_1" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"  Content="Консоль" Padding="0" Grid.Row="2" Click="Button_Click_2" />
+                        <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"  Content="Настройки" Padding="0" Grid.Row="3" Click="Button_Click_4" />
                     </StackPanel>
 
 
                 </Grid>
 
-                <Button Grid.Row="1" Grid.Column="0" Background="red" Click="Button_Click_3">
+                <Button Style="{StaticResource MenuButtons}" Content="Свернуть" Margin="0, 0, 0, 0" Grid.Row="1" Grid.Column="0" Background="red" Click="Button_Click_3">
 
                 </Button>
 
 
                 <Grid.Style>
                     <Style TargetType="Grid">
-                        <Setter Property="Width" Value="10"/>
+                        <Setter Property="Width" Value="15"/>
                         <Setter Property="Grid.ColumnSpan" Value="1"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="Grid.ColumnSpan" Value="2"/>
                                 <Trigger.EnterActions>
-                                    <BeginStoryboard>
+                                    <BeginStoryboard HandoffBehavior="Compose">
                                         <Storyboard>
                                             <DoubleAnimation Duration="0:0:1" To="150" Storyboard.TargetProperty="Width">
                                             </DoubleAnimation>
@@ -62,7 +66,7 @@
                                 <Trigger.ExitActions>
                                     <BeginStoryboard>
                                         <Storyboard>
-                                            <DoubleAnimation Duration="0:0:1" From="150" To="10" Storyboard.TargetProperty="Width"/>
+                                            <DoubleAnimation Duration="0:0:1" To="15" Storyboard.TargetProperty="Width"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
@@ -78,8 +82,7 @@
             <local:AddingPrograms  Visibility="Hidden" x:Name="add"/>
             <local:ProgramListBox  Visibility="Visible" x:Name="prog"/>
             <local:ConsolePanel  Visibility="Hidden" x:Name="Cons" ClipToBounds="False"/>
-
-
+            <local:SettingsPanel Visibility="Hidden" x:Name="Sett"/>
         </Grid>
 
     </Grid>

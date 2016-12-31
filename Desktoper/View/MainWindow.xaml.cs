@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Desktoper.ViewModel;
+using Desktoper.Model;
 
 namespace Desktoper.View
 {
@@ -24,12 +25,15 @@ namespace Desktoper.View
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new SettingsViewModel();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             add.Visibility = Visibility.Visible;
             prog.Visibility = Visibility.Hidden;
+            Sett.Visibility = Visibility.Hidden;
             Cons.Visibility = Visibility.Hidden;
         }
 
@@ -38,6 +42,7 @@ namespace Desktoper.View
             prog.Visibility = Visibility.Visible;
             add.Visibility = Visibility.Hidden;
             Cons.Visibility = Visibility.Hidden;
+            Sett.Visibility = Visibility.Hidden;
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -45,6 +50,7 @@ namespace Desktoper.View
             Cons.Visibility = Visibility.Visible;
             add.Visibility = Visibility.Hidden;
             prog.Visibility = Visibility.Hidden;
+            Sett.Visibility = Visibility.Hidden;
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -60,6 +66,7 @@ namespace Desktoper.View
                 Cons.Visibility = Visibility.Visible;
                 add.Visibility = Visibility.Hidden;
                 prog.Visibility = Visibility.Hidden;
+                Sett.Visibility = Visibility.Hidden;
             }
             else
             {
@@ -72,9 +79,12 @@ namespace Desktoper.View
             }
         }
 
-        private void DoubleAnimation_Completed(object sender, EventArgs e)
+        private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            
+            Cons.Visibility = Visibility.Hidden;
+            add.Visibility = Visibility.Hidden;
+            prog.Visibility = Visibility.Hidden;
+            Sett.Visibility = Visibility.Visible;
         }
     }
 }

@@ -26,7 +26,6 @@ namespace Desktoper.Model
         public ObservableCollection<Site> ListOfSites { get; set; } = new ObservableCollection<Site>();
         public ObservableCollection<UFile> ListOfFiles { get; set; } = new ObservableCollection<UFile>();
 
-        private static string FileName = "Data.desk";
 
         private static ClassOfItems instance;
         private static ClassOfItems _instance = new ClassOfItems();
@@ -57,7 +56,8 @@ namespace Desktoper.Model
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                using (FileStream stream = new FileStream(FileName, FileMode.OpenOrCreate))
+                using (FileStream stream = new FileStream
+                    (SaveData.GetItemsFilePath(), FileMode.OpenOrCreate))
                 {
                     formatter.Serialize(stream, instance);
                 }
@@ -70,7 +70,8 @@ namespace Desktoper.Model
         public void Desearialize()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream stream = new FileStream(FileName, FileMode.OpenOrCreate))
+            using (FileStream stream = new FileStream
+                (SaveData.GetItemsFilePath(), FileMode.OpenOrCreate))
             {
                 if (stream.Length != 0)
                 {

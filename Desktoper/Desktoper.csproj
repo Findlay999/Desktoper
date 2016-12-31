@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,8 +59,14 @@
     </ApplicationDefinition>
     <Compile Include="Converters\PathToImage.cs" />
     <Compile Include="Model\ClassOfItems.cs" />
+    <Compile Include="Model\SaveData.cs" />
+    <Compile Include="Model\Settings.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\UFile.cs" />
+    <Compile Include="View\SettingsPanel.xaml.cs">
+      <DependentUpon>SettingsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TabPanels\FilesTabControl.xaml.cs">
       <DependentUpon>FilesTabControl.xaml</DependentUpon>
     </Compile>
@@ -86,11 +93,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResDictionaries\ItemsListStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResDictionaries\MainAndRightPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResDictionaries\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResDictionaries\SettingsStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SettingsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
