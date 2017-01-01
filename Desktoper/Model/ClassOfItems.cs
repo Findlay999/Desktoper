@@ -26,7 +26,6 @@ namespace Desktoper.Model
         public ObservableCollection<Site> ListOfSites { get; set; } = new ObservableCollection<Site>();
         public ObservableCollection<UFile> ListOfFiles { get; set; } = new ObservableCollection<UFile>();
 
-
         private static ClassOfItems instance;
         private static ClassOfItems _instance = new ClassOfItems();
         public static ClassOfItems Instance { get { return _instance; } }

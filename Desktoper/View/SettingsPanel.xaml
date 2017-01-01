@@ -26,13 +26,13 @@
 
             <StackPanel Margin="30, 50, 0, 0">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource SettHeader}" Text="Отображать поверх остальных программ"/>
-                    <CheckBox IsChecked="{Binding IsOnTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Style="{StaticResource SettHeader}" Text="Автозапуск при включении"/>
+                    <CheckBox IsChecked="{Binding IsStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource SettHeader}" Text="Автозапуск"/>
-                    <CheckBox IsChecked="{Binding IsStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Style="{StaticResource SettHeader}" Text="Отображать поверх остальных программ"/>
+                    <CheckBox IsChecked="{Binding IsOnTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

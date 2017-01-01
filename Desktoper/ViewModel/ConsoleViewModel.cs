@@ -16,6 +16,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using IWshRuntimeLibrary;
 using System.Runtime.Serialization.Formatters.Binary;
+using Desktoper.Other.CustomDialog;
 using Desktoper.Commands;
 
 namespace Desktoper.ViewModel
@@ -278,7 +279,7 @@ namespace Desktoper.ViewModel
             }
             catch
             {
-                MessageBox.Show("Cannot open this file!");
+                DialogWindow.Show("Cannot open this file!");
             }
             ConsoleCommand = null;
         }

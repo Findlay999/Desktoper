@@ -58,8 +58,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\PathToImage.cs" />
+    <Compile Include="Other\CustomDialog\DesktoperDialog.xaml.cs">
+      <DependentUpon>DesktoperDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\ClassOfItems.cs" />
     <Compile Include="Model\SaveData.cs" />
+    <Compile Include="Other\CustomDialog\DialogWindow.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\UFile.cs" />
@@ -88,6 +92,10 @@
     <Compile Include="View\TabPanels\SitesTabControl.xaml.cs">
       <DependentUpon>SitesTabControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Other\CustomDialog\DesktoperDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResDictionaries\AddingProgramStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

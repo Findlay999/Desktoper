@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Desktoper.ViewModel;
 using Desktoper.Model;
+using Desktoper.Other.CustomDialog;
 
 namespace Desktoper.View
 {
@@ -26,7 +27,7 @@ namespace Desktoper.View
         {
             InitializeComponent();
             this.DataContext = new SettingsViewModel();
-            
+            DialogWindow.Owner = this;      
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

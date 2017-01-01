@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using IWshRuntimeLibrary;
 using System.Runtime.Serialization.Formatters.Binary;
 using Desktoper.Commands;
+using Desktoper.Other.CustomDialog;
 
 namespace Desktoper.ViewModel
 {
@@ -123,7 +124,7 @@ namespace Desktoper.ViewModel
         {
             if (typeof(Program) == obj.GetType())
             {
-                if (MessageBox.Show("Delete this program?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (DialogWindow.ShowDialog("Delete this program?") == true)
                 {
                     ListOfItems.ListOfPrograms.Remove(SelectedProgram);
                 }
@@ -131,7 +132,7 @@ namespace Desktoper.ViewModel
 
             if (typeof(Site) == obj.GetType())
             {
-                if (MessageBox.Show("Delete this site?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (DialogWindow.ShowDialog("Delete this site?") == true)
                 {
                     ListOfItems.ListOfSites.Remove(SelectedSite);
                 }
@@ -139,7 +140,7 @@ namespace Desktoper.ViewModel
 
             if (typeof(UFile) == obj.GetType())
             {
-                if (MessageBox.Show("Delete this file?", "", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (DialogWindow.ShowDialog("Delete this file?") == true)
                 {
                     ListOfItems.ListOfFiles.Remove(SelectedFile);
                 }
@@ -167,7 +168,7 @@ namespace Desktoper.ViewModel
             }
             catch
             {
-                MessageBox.Show("Cannot open this!");
+                DialogWindow.Show("Cannot open this!");
             }
         }
 
