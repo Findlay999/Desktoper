@@ -60,7 +60,6 @@
     <Compile Include="Converters\PathToImage.cs" />
     <Compile Include="Model\ClassOfItems.cs" />
     <Compile Include="Model\SaveData.cs" />
-    <Compile Include="Model\Settings.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\UFile.cs" />

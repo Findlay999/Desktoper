@@ -10,14 +10,8 @@ namespace Desktoper.Model
     {
         private static string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static string ItemsNameFile = "Desk.dat";
-        private static string SettingsNameFile = "Sett.dat";
 
         public static string GetItemsFilePath()
-        {
-            return FolderPath + "\\" + ItemsNameFile;
-        }
-
-        public static string GetSettingsFilePath()
         {
             return FolderPath + "\\" + ItemsNameFile;
         }

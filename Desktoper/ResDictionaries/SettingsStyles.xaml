@@ -7,6 +7,5 @@
         <Setter Property="FontFamily" Value="Britannic Bold"/>
         <Setter Property="Width" Value="350"/>
     </Style>
-    
-    
+        
 </ResourceDictionary>

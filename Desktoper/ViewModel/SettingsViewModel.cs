@@ -13,8 +13,11 @@ using System.IO;
 
 namespace Desktoper.ViewModel
 {
-    class SettingsViewModel : Settings, INotifyPropertyChanged
+    class SettingsViewModel : INotifyPropertyChanged
     {
+        public static bool isStartUp;
+        public static bool isOnTop;
+
         public bool IsOnTop
         {
             get { return isOnTop; }
@@ -22,6 +25,8 @@ namespace Desktoper.ViewModel
             {
                 isOnTop = value;
                 OnPropertyChanged("IsOnTop");
+                Properties.Settings.Default.IsOnTop = value;
+                Properties.Settings.Default.Save();
             }
         }
         public bool IsStartUp
@@ -32,17 +37,20 @@ namespace Desktoper.ViewModel
                 isStartUp = value;
                 SetStartUp();
                 OnPropertyChanged("IsStartUp");
+                Properties.Settings.Default.IsStartUp = value;
+                Properties.Settings.Default.Save();
             }
         }
 
         public SettingsViewModel()
         {
-            IsStartUp = false;
-            IsOnTop = false;
+            IsStartUp = Properties.Settings.Default.IsStartUp;
+            IsOnTop = Properties.Settings.Default.IsOnTop;
         }
 
         private void SetStartUp()
         {
+           
             try
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
