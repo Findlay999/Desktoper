@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Desktoper.View"
         xmlns:ViewModels="clr-namespace:Desktoper.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="380" Width="720" Topmost="{Binding IsOnTop, UpdateSourceTrigger=PropertyChanged}">
+        Title="MainWindow" Height="380" Width="720" Topmost="{Binding DesktoperSettings.IsOnTop, UpdateSourceTrigger=PropertyChanged}">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,11 +23,12 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Margin="0, 0, 2, 0" Background="{StaticResource MainColor}" CornerRadius="0, 5, 5, 0">
+        <Border Margin="0, 0, 2, 0" Name="MenuBord" Background="{StaticResource MainColor}" CornerRadius="0, 5, 5, 0">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Direction="0"/>
             </Border.Effect>
-            <Grid Name="RightPanel" Panel.ZIndex="2" Style="{StaticResource RightPanelSlide}"
+
+            <Grid Name="RightPanel" Width="18" Panel.ZIndex="2" Style="{StaticResource RightPanelSlide}"
                   HorizontalAlignment="Left" Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -37,27 +38,58 @@
                 <Grid Background="Transparent" Margin="10">
                     <StackPanel>
                         <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"
-                                Content="Добавить" Grid.Row="0" Click="Button_Click" />
+                                Content="Добавить" Grid.Row="0" Command="{Binding ChangeVisibility}" CommandParameter="0"/>
                         <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"
-                                Content="Cписок" Grid.Row="1" Click="Button_Click_1" />
+                                Content="Cписок" Grid.Row="1" Command="{Binding ChangeVisibility}" CommandParameter="1"/>
                         <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch"
-                                Content="Консоль" Grid.Row="2" Click="Button_Click_2" />
+                                Content="Консоль" Grid.Row="2" Command="{Binding ChangeVisibility}" CommandParameter="2"/>
                         <Button Style="{StaticResource MenuButtons}" HorizontalAlignment="Stretch" 
-                                Content="Настройки" Grid.Row="3" Click="Button_Click_4" />
+                                Content="Настройки" Grid.Row="3" Command="{Binding ChangeVisibility}" CommandParameter="3"/>
                     </StackPanel>
                 </Grid>
 
-                <Button Style="{StaticResource MenuButtons}" Content="Свернуть" Grid.Row="1"
-                        Background="red" Click="Button_Click_3"/>
+                <Label Content="Menu" Panel.ZIndex="10"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderTransformOrigin="0.5,0.5" FontSize="14" FontWeight="DemiBold" Margin="-50, 0, -50 ,0" >
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="270"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Style>
+                        <Style TargetType="Label">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=RightPanel, Path=Width}" Value="18">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+
+                <Button Style="{StaticResource MinimizeButton}" Name="MinimizeButt" Content="Свернуть" Grid.Row="1" Click="MinimizeClick"/>
             </Grid>
         </Border>
 
         <Grid Grid.Column="1" Name="MainPanel">
-            <local:AddingPrograms  Visibility="Hidden" x:Name="add"/>
-            <local:ProgramListBox  Visibility="Visible" x:Name="prog"/>
-            <local:ConsolePanel  Visibility="Hidden" x:Name="Cons" ClipToBounds="False"/>
-            <local:SettingsPanel Visibility="Hidden" x:Name="Sett"/>
-        </Grid>
+            <Grid Visibility="{Binding VisibilityInfo[0], UpdateSourceTrigger=PropertyChanged}">
+                <local:AddingPrograms x:Name="Add"/>
+            </Grid>
 
+            <Grid Visibility="{Binding VisibilityInfo[1], UpdateSourceTrigger=PropertyChanged}">
+                <local:ProgramListBox x:Name="Prog"/>
+            </Grid>
+
+            <Grid Visibility="{Binding VisibilityInfo[2], UpdateSourceTrigger=PropertyChanged}">
+                <local:ConsolePanel x:Name="Cons" ClipToBounds="False"/>
+            </Grid>
+
+            <Grid Visibility="{Binding VisibilityInfo[3], UpdateSourceTrigger=PropertyChanged}">
+                <local:SettingsPanel x:Name="Sett"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

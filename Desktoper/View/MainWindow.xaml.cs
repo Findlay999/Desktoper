@@ -26,66 +26,44 @@ namespace Desktoper.View
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new SettingsViewModel();
+            this.DataContext = new MainWindowViewModel();
             DialogWindow.Owner = this;      
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void MinimizeClick(object sender, RoutedEventArgs e)
         {
-            add.Visibility = Visibility.Visible;
-            prog.Visibility = Visibility.Hidden;
-            Sett.Visibility = Visibility.Hidden;
-            Cons.Visibility = Visibility.Hidden;
-        }
+            int minWidth = 400;
+            int minHeight = 30;
+            int minTop = 20;
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            prog.Visibility = Visibility.Visible;
-            add.Visibility = Visibility.Hidden;
-            Cons.Visibility = Visibility.Hidden;
-            Sett.Visibility = Visibility.Hidden;
-        }
+            int maxWidth = 720;
+            int maxHeight = 380;
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            Cons.Visibility = Visibility.Visible;
-            add.Visibility = Visibility.Hidden;
-            prog.Visibility = Visibility.Hidden;
-            Sett.Visibility = Visibility.Hidden;
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            if (this.ActualWidth != 400 && this.ActualHeight != 30)
+            if (this.ActualWidth != minWidth && this.ActualHeight != minHeight)
             {
                 this.WindowStyle = WindowStyle.None;
                 this.ResizeMode = ResizeMode.NoResize;
-                this.Width = 400;
-                this.Height = 30;
-                this.Left = SystemParameters.PrimaryScreenWidth - this.Width - 20;
-                this.Top = 20;
-                Cons.Visibility = Visibility.Visible;
-                add.Visibility = Visibility.Hidden;
-                prog.Visibility = Visibility.Hidden;
-                Sett.Visibility = Visibility.Hidden;
+                this.Width = minWidth;
+                this.Height = minHeight;
+                this.Left = SystemParameters.PrimaryScreenWidth - this.Width - minTop;
+                this.Top = minTop;
+                MenuBord.Margin = new Thickness(0);
+                MinimizeButt.BorderThickness = new Thickness(0);
+                MinimizeButt.Content = "Развернуть";
+                MinimizeButt.Visibility = Visibility.Visible;
+                (this.DataContext as MainWindowViewModel).DoChange(2);
             }
             else
             {
-                this.Width = 600;
-                this.Height = 350;
+                this.Width = maxWidth;
+                this.Height = maxHeight;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.ResizeMode = ResizeMode.CanResize;
                 this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
-                this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2; 
+                this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
+                MinimizeButt.BorderThickness = new Thickness(1);
+                MinimizeButt.Content = "Cвернуть";
             }
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            Cons.Visibility = Visibility.Hidden;
-            add.Visibility = Visibility.Hidden;
-            prog.Visibility = Visibility.Hidden;
-            Sett.Visibility = Visibility.Visible;
         }
     }
 }

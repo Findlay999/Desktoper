@@ -22,20 +22,22 @@ namespace Desktoper.ViewModel
 {
     class ProgramsViewModel : INotifyPropertyChanged
     {
-        #region Fields
+        #region Variables
 
         public ClassOfItems ListOfItems { get; set; } = ClassOfItems.getInstance();
 
         private enum Keys { Program, File, Site }
 
-        private ICommand deleteElement;
-        private ICommand openElement;
-        private ICommand hideElement;
-
         private Program selectedProgram = null;
         private Site selectedSite = null;
         private UFile selectedFile = null;
-  
+
+        #endregion
+
+        #region Command variables
+        private ICommand deleteElement;
+        private ICommand openElement;
+        private ICommand hideElement;
         #endregion
 
         #region Getters and Setters
@@ -68,7 +70,9 @@ namespace Desktoper.ViewModel
                 OnPropertyChanged("SelectedSite");
             }
         }
+        #endregion
 
+        #region Command Getters adn Setters 
         public ICommand DeleteElement
         {
             get { return deleteElement; }
@@ -87,7 +91,7 @@ namespace Desktoper.ViewModel
             set { hideElement = value; }
         }
         #endregion
- 
+
         #region Constructors
         public ProgramsViewModel() 
         {
@@ -97,12 +101,8 @@ namespace Desktoper.ViewModel
         }
         #endregion
 
-        #region Other Methods
-
- 
-        #endregion
-
-        public void HideElm(object obj)
+        #region Command Methods
+        public void HideElm(object obj) // скрываем панель информации путем обнуления информации о выбраном файле
         {
             if (typeof(Program) == obj.GetType())
             {
@@ -120,7 +120,7 @@ namespace Desktoper.ViewModel
             }
         }
 
-        public void DeleteElm(object obj)
+        public void DeleteElm(object obj) // удаление выбраного елемента
         {
             if (typeof(Program) == obj.GetType())
             {
@@ -147,7 +147,7 @@ namespace Desktoper.ViewModel
             }
         }
 
-        public void OpenElm(object obj)
+        public void OpenElm(object obj) // открытие вибраного елемента
         {
             try
             {
@@ -171,6 +171,7 @@ namespace Desktoper.ViewModel
                 DialogWindow.Show("Cannot open this!");
             }
         }
+        #endregion
 
         #region PropertiesChanged
         public event PropertyChangedEventHandler PropertyChanged;

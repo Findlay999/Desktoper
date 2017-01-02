@@ -1,29 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using Desktoper.Model;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Net;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
 using IWshRuntimeLibrary;
-using System.Runtime.Serialization.Formatters.Binary;
 using Desktoper.Commands;
+using Desktoper.Other.CustomDialog;
 
 namespace Desktoper.ViewModel
 {
     class AddingElementsViewModel : INotifyPropertyChanged
     {
-        #region Site variables
+        #region Site data variables
         public string SiteName { get; set; }
         public string SiteURL  { get; set; }
         public string SiteDesc { get; set; }
@@ -55,7 +46,9 @@ namespace Desktoper.ViewModel
         }
         #endregion
 
+        #region Other variables
         private string visiblePanelKey;
+
         public string VisiblePanelKey
         {
             get { return visiblePanelKey; }
@@ -67,13 +60,17 @@ namespace Desktoper.ViewModel
         }
 
         private ClassOfItems Items { get; set; } = ClassOfItems.getInstance();
-        public string[] Types { get; set; } = new string[] { "File", "Label", "Site" };
 
+        public string[] Types { get; set; } = new string[] { "File", "Label", "Site" };
+        #endregion
+
+        #region Constructors
         public AddingElementsViewModel()
         {
             ChangeVisiblePanel = new RelayCommand(ChangePanel);
             AddSite = new RelayCommand(AddSiteToList);
         }
+        #endregion
 
         #region Command methods
         private void AddSiteToList(object obj)
@@ -84,13 +81,14 @@ namespace Desktoper.ViewModel
             {
                 using (WebClient client = new WebClient())
                 {
-                    client.DownloadFile("https://www.google.com/s2/favicons?domain_url=" + SiteURL, Environment.CurrentDirectory + SiteName + ".siteIco");
-                    imgPath = Environment.CurrentDirectory + SiteName + ".siteIco";
+                    //попытка загрузка иконки сайта
+                    client.DownloadFile("https://www.google.com/s2/favicons?domain_url=" + SiteURL, SaveData.FolderPath + SiteName + ".siteIco");
+                    imgPath = SaveData.FolderPath + SiteName + ".siteIco";
                 }
             }
-            catch (Exception e)
+            catch
             {
-
+                DialogWindow.Show("Ошибка добавления ссылки...");
             }
 
             Site site = (new Site()
@@ -101,10 +99,14 @@ namespace Desktoper.ViewModel
                 ImgPath = imgPath
             });
 
-
-            if (!Items.ListOfSites.Any(x => x.URL == site.URL || x.Name == site.Name))
+            //проверка нет ли такого сайта в списке
+            if (site.Name != null && !Items.ListOfSites.Any(x => x.URL == site.URL || x.Name == site.Name))
             {
                 Items.ListOfSites.Add(site);
+            }
+            else
+            {
+                DialogWindow.Show("Не удалось добавить сcылку. Возможно, такая ссылка уже была добавлена!");
             }
         }
 
@@ -114,7 +116,7 @@ namespace Desktoper.ViewModel
             {
                 if(type == (obj as string))
                 {
-                    VisiblePanelKey = type;
+                    VisiblePanelKey = type; // получаем тип окна которое нужно отобразить
                     return;
                 }
             }
@@ -127,7 +129,7 @@ namespace Desktoper.ViewModel
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] ForAdd = (string[])e.Data.GetData(DataFormats.FileDrop);
+                string[] ForAdd = (string[])e.Data.GetData(DataFormats.FileDrop); // берется информация о файле
                 if (VisiblePanelKey == "Label")
                 {
                     AddPrograms(ForAdd);
@@ -150,9 +152,15 @@ namespace Desktoper.ViewModel
                     FilePath = info.FullName,
                     ImgPath = info.FullName
                 };
+
+                //проверка наличия такого файла
                 if(!Items.ListOfFiles.Any(x => x.FilePath == file.FilePath))
                 {
                     Items.ListOfFiles.Add(file);
+                }
+                else
+                {
+                    DialogWindow.Show("Не удалось добавить файл. Возможно, такой файл уже был добавлен!");
                 }
             }
         }
@@ -162,7 +170,7 @@ namespace Desktoper.ViewModel
             foreach (string Prog in ProgramsForAdd)
             {
                 FileInfo info = new FileInfo(Prog);
-                WshShell shell = new WshShell();
+                WshShell shell = new WshShell(); // собираются данные о ярлыке
                 IWshShortcut link = (IWshShortcut)shell.CreateShortcut(Prog);
 
                 Program prog = new Program()
@@ -172,12 +180,18 @@ namespace Desktoper.ViewModel
                     ImgPath = link.TargetPath
                 };
 
+                //проверка наличия ссылки на такую же программу
                 if (!Items.ListOfPrograms.Any(x => x.WorkingDirectory == prog.WorkingDirectory))
                     Items.ListOfPrograms.Add(prog);
+                else
+                {
+                    DialogWindow.Show("Не удалось добавить ярлык. Возможно, такой ярлык уже был добавлен!");
+                }
             }
         }
         #endregion
 
+        #region Property Changed
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)
         {
@@ -186,5 +200,6 @@ namespace Desktoper.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
+        #endregion
     }
 }

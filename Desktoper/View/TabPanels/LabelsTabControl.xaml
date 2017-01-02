@@ -109,13 +109,8 @@
                 <Border Grid.Row="1" BorderThickness="1, 0, 1, 1" BorderBrush="Black">
                     <StackPanel Background="#FFFFED7C">
                         <StackPanel Orientation="Vertical" Margin="2, 0, 0, 0">
-                            <TextBlock Text="Target Path: " FontSize="14" FontWeight="DemiBold"/>
-                            <TextBlock Text="{Binding WorkingDirectory}"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Vertical" Margin="2, 0, 0, 0">
-                            <TextBlock Text="Name: " FontSize="14" FontWeight="DemiBold"/>
-                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="Путь: " FontSize="14" FontWeight="DemiBold"/>
+                            <TextBlock Text="{Binding WorkingDirectory}" TextWrapping="Wrap"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -129,9 +124,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Button Style="{StaticResource OptionButtons}" Content="Open" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
-                    <Button Style="{StaticResource OptionButtons}" Content="Delete" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
-                    <Button Style="{StaticResource OptionButtons}" Content="Hide Panel" Grid.Row="2" Command="{Binding HideElement}" CommandParameter="{Binding SelectedProgram}"/>
+                    <Button Style="{StaticResource OptionButtons}" Content="Открыть" Grid.Row="0" Command="{Binding OpenElement}" CommandParameter="{Binding SelectedProgram}"/>
+                    <Button Style="{StaticResource OptionButtons}" Content="Удалить" Grid.Row="1" Command="{Binding DeleteElement}" CommandParameter="{Binding SelectedProgram}"/>
+                    <Button Style="{StaticResource OptionButtons}" Content="Скрыть" Grid.Row="2" Command="{Binding HideElement}" CommandParameter="{Binding SelectedProgram}"/>
                 </Grid>
             </Border>
         </Grid>

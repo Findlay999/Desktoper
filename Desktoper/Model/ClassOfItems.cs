@@ -22,10 +22,14 @@ namespace Desktoper.Model
     [Serializable]
     class ClassOfItems
     {
+
+        #region Lists
         public ObservableCollection<Program> ListOfPrograms { get; set; } = new ObservableCollection<Program>();
         public ObservableCollection<Site> ListOfSites { get; set; } = new ObservableCollection<Site>();
         public ObservableCollection<UFile> ListOfFiles { get; set; } = new ObservableCollection<UFile>();
+        #endregion
 
+        #region Singleton settings
         private static ClassOfItems instance;
         private static ClassOfItems _instance = new ClassOfItems();
         public static ClassOfItems Instance { get { return _instance; } }
@@ -36,7 +40,9 @@ namespace Desktoper.Model
                 instance = new ClassOfItems();
             return instance;
         }
+        #endregion
 
+        #region Constructors
         public ClassOfItems()
         {
             Desearialize();
@@ -44,12 +50,16 @@ namespace Desktoper.Model
             ListOfSites.CollectionChanged += List_CollectionChanged;
             ListOfFiles.CollectionChanged += List_CollectionChanged;
         }
+        #endregion
 
+        #region Change event
         private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Save();
         }
+        #endregion
 
+        #region Serialise & Deserialize
         private Task Save()
         {
             try
@@ -95,5 +105,6 @@ namespace Desktoper.Model
                 ListOfPrograms.Add(prog);
             }
         }
+        #endregion
     }
 }

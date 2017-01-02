@@ -139,6 +139,7 @@ namespace Desktoper.ViewModel
         }
         #endregion
 
+        #region Constructors
         public ConsoleViewModel()
         {
             FillCommandsInfo();
@@ -147,7 +148,9 @@ namespace Desktoper.ViewModel
             ScrollResultDown = new RelayCommand(ScrollDown);
             ScrollResultUp = new RelayCommand(ScrollUp);
         }
+        #endregion
 
+        #region Scroll Matches and Commands
         private void ScrollDown(object obj)
         {
             if (SelIndex < SearchMatches.Count - 1)
@@ -158,7 +161,7 @@ namespace Desktoper.ViewModel
                 RewriteCommandByItem(LocalCommand);
                 AllowSearchMatches = true;
             }
-        }
+        } // переключение на следующий файл из совпадений
 
         private void ScrollUp(object obj)
         {
@@ -170,7 +173,7 @@ namespace Desktoper.ViewModel
                 RewriteCommandByItem(LocalCommand);
                 AllowSearchMatches = true;
             }
-        }
+        } // переключение на предыдущий файл из совпадений
 
         private void RewriteCommandByItem(Tuple<string,string,Keys> LocalCommand)
         {
@@ -186,9 +189,12 @@ namespace Desktoper.ViewModel
             {
                 ConsoleCommand = LocalCommand.Item1 + " " + (SearchMatches[SelIndex] as UFile).Name;
             }
-        }
+        } // автозаполнение строки запроса при скролинге
 
-        private void FindMatches()
+        #endregion
+
+        #region Finding Matches
+        private void FindMatches() // поиск совпадение с именем файла из запроса
         {
             if (AllowSearchMatches)
             {
@@ -230,88 +236,30 @@ namespace Desktoper.ViewModel
             }
         }
 
-        private void FastCommand(object obj)
-        {
-            var LocalCommand = CheckCommand();
-
-            if (LocalCommand.Item3 == Keys.Program)
-            {
-                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Program).Name;
-            }
-            if(LocalCommand.Item3 == Keys.File)
-            {
-                ConsoleCommand = LocalCommand.Item1 + " " + (obj as UFile).Name;
-            }
-            if(LocalCommand.Item3 == Keys.Site)
-            {
-                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Site).Name;
-            }
-
-            SearchMatches = new ObservableCollection<Object>();
-            DoCommand(null);
-        }
-
-        private void DoCommand(object obj)
-        {
-            var LocalCommand = CheckCommand();
-            try
-            {
-                if (LocalCommand.Item1 == "OpenProgram")
-                {
-                    var command = ConsoleCommand.Remove(0, "OpenProgram".Length + 1);
-                    System.Diagnostics.Process.Start(
-                        Items.ListOfPrograms.First(x => String.Compare(x.Name, command, true) == 0).WorkingDirectory);
-                }
-                
-                if(LocalCommand.Item1 == "OpenSite")
-                {
-                    var command = ConsoleCommand.Remove(0, "OpenSite".Length + 1);
-                    System.Diagnostics.Process.Start(
-                        Items.ListOfSites.First(x => String.Compare(x.Name, command, true) == 0).URL); 
-                }
-
-                if (LocalCommand.Item1 == "OpenFile")
-                {
-                    var command = ConsoleCommand.Remove(0, "OpenFile".Length + 1);
-                    System.Diagnostics.Process.Start(
-                        Items.ListOfFiles.First(x => String.Compare(x.Name, command, true) == 0).FilePath);
-                }
-            }
-            catch
-            {
-                DialogWindow.Show("Cannot open this file!");
-            }
-            ConsoleCommand = null;
-        }
-
-        private Tuple<string, string, Keys> CheckCommand()
+        private Tuple<string, string, Keys> CheckCommand() // возвращаем команду, имя файла и тип файла
         {
             var Result = FindCommand(ProgramCommands);
             if (Result != null)
             {
                 return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.Program);
             }
-            else
+
+            Result = FindCommand(SiteCommands);
+            if (Result != null)
             {
-                Result = FindCommand(SiteCommands);
-                if (Result != null)
-                {
-                    return new Tuple< string, string, Keys> (Result.Item1, Result.Item2, Keys.Site);
-                }
-                else
-                {
-                    Result = FindCommand(FileCommands);
-                    if(Result != null)
-                    {
-                        return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.File);
-                    }
-                }
+                return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.Site);
+            }
+
+            Result = FindCommand(FileCommands);
+            if (Result != null)
+            {
+                return new Tuple<string, string, Keys>(Result.Item1, Result.Item2, Keys.File);
             }
 
             return null;
         }
 
-        private Tuple<string, string> FindCommand(string[] CommandsList)
+        private Tuple<string, string> FindCommand(string[] CommandsList) // разбиваем запрос на команду и имя файла
         {
             foreach (string command in CommandsList)
             {
@@ -336,8 +284,67 @@ namespace Desktoper.ViewModel
                 return false;
             }
             catch { return false; };    
+        }// метод для сравнение файла из запроса и существующего
+        #endregion
+
+        #region Commands
+        private void FastCommand(object obj) // автозаполнение строки запроса при клике
+        {
+            var LocalCommand = CheckCommand();
+
+            if (LocalCommand.Item3 == Keys.Program)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Program).Name;
+            }
+            if (LocalCommand.Item3 == Keys.File)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as UFile).Name;
+            }
+            if (LocalCommand.Item3 == Keys.Site)
+            {
+                ConsoleCommand = LocalCommand.Item1 + " " + (obj as Site).Name;
+            }
+
+            SearchMatches = new ObservableCollection<Object>();
+            DoCommand(null);
         }
 
+        private void DoCommand(object obj) // выполнение запроса
+        {
+            var LocalCommand = CheckCommand();
+            try
+            {
+                if (LocalCommand.Item1 == "OpenProgram")
+                {
+                    var command = ConsoleCommand.Remove(0, "OpenProgram".Length + 1);
+                    System.Diagnostics.Process.Start(
+                        Items.ListOfPrograms.First(x => String.Compare(x.Name, command, true) == 0).WorkingDirectory);
+                }
+
+                if (LocalCommand.Item1 == "OpenSite")
+                {
+                    var command = ConsoleCommand.Remove(0, "OpenSite".Length + 1);
+                    System.Diagnostics.Process.Start(
+                        Items.ListOfSites.First(x => String.Compare(x.Name, command, true) == 0).URL);
+                }
+
+                if (LocalCommand.Item1 == "OpenFile")
+                {
+                    var command = ConsoleCommand.Remove(0, "OpenFile".Length + 1);
+                    System.Diagnostics.Process.Start(
+                        Items.ListOfFiles.First(x => String.Compare(x.Name, command, true) == 0).FilePath);
+                }
+            }
+            catch
+            {
+                DialogWindow.Show("Cannot open this file!");
+            }
+            ConsoleCommand = null;
+        }
+
+        #endregion
+
+        #region Commands Info
         private void FillCommandsInfo()
         {
             CommandsInfo.Add(
@@ -347,6 +354,8 @@ namespace Desktoper.ViewModel
             CommandsInfo.Add(
                 new CommandInfo("OpenProgram", "Открыть программу"));
         }
+        #endregion
+
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = null)

@@ -64,6 +64,7 @@
     <Compile Include="Model\ClassOfItems.cs" />
     <Compile Include="Model\SaveData.cs" />
     <Compile Include="Other\CustomDialog\DialogWindow.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="Model\UFile.cs" />

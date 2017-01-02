@@ -8,8 +8,8 @@ namespace Desktoper.Model
 {
     class SaveData
     {
-        private static string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        private static string ItemsNameFile = "Desk.dat";
+        public static string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static string ItemsNameFile = "Desk.dat";
 
         public static string GetItemsFilePath()
         {
