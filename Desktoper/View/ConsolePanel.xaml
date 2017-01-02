@@ -8,19 +8,25 @@
              mc:Ignorable="d" 
              x:Name="ThisPanel"
              Loaded="UserControl_Loaded">
-        
-    <UserControl.Resources>
-        <Converters:PathToImage x:Key="ImgConverter" />
-    </UserControl.Resources>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/ConsolePanelStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/GlobalStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Converters:PathToImage x:Key="ImgConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid Name="Main">
         <Grid Margin="10, 10, 10, 50" Background="White">
             <Grid.Effect>
                 <DropShadowEffect/>
             </Grid.Effect>
         </Grid>
-        <Grid Name="InfoGrid" Margin="10, 10, 10, 50" Background="#FFFFED7C">
-            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Список команд"/>
+        <Grid Name="InfoGrid" Margin="10, 10, 10, 50" Background="{StaticResource MainColor}">
+            <TextBlock Style="{StaticResource PanelHeaders}" Text="Список команд"/>
 
             <ListBox Margin="30, 50, 0, 0" BorderThickness="0" ItemsSource="{Binding CommandsInfo, UpdateSourceTrigger=PropertyChanged}" Background="{x:Null}" IsHitTestVisible="False">
                 <ListBox.ItemTemplate>
@@ -31,8 +37,8 @@
                                 <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox BorderThickness="0, 0, 0, 1" Background="{x:Null}" BorderBrush="Black" Grid.Column="0" Text="{Binding CommandName}" FontFamily="Britannic Bold" FontSize="16" />
-                            <TextBox BorderThickness="0, 0, 0, 1" Background="{x:Null}" BorderBrush="Black"  Grid.Column="1" Text="{Binding CommandDesc}" FontFamily="Times New Roman" FontSize="16"/>
+                            <TextBox Style="{StaticResource CommandInfoTB}" Grid.Column="0" Text="{Binding CommandName}" FontFamily="Britannic Bold"/>
+                            <TextBox Style="{StaticResource CommandInfoTB}" Grid.Column="1" Text="{Binding CommandDesc}" FontFamily="Times New Roman"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -43,20 +49,9 @@
                      Width="{Binding ElementName=ConsoleTB, Path=ActualWidth}"
                      SelectedIndex="{Binding SelIndex, UpdateSourceTrigger=PropertyChanged}"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#FFE4B35E" BorderBrush="{x:Null}" SelectionChanged="List_SelectionChanged" VerticalContentAlignment="Stretch">
-         
+
                 <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="FontSize" Value="14"/>
-                        <Setter Property="Padding" Value="3"/>
-                        <Setter Property="Margin" Value="-1"/>
-                        <Setter Property="Background" Value="#FFFFED7C"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True" >
-                                <Setter Property="FontSize" Value="18"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource CommandListBoxItems}"/>
                 </ListBox.ItemContainerStyle>
                 
                 <ListBox.ItemTemplate>
@@ -116,6 +111,7 @@
                 <DropShadowEffect Direction="45"/>
             </TextBox.Effect>
         </TextBox>
+        
         <TextBox Focusable="True" VerticalAlignment="Bottom" Text="{Binding ConsoleCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="2"
         Height="30" FontSize="20" Background="#FFFFF198" Name="ConsoleTB" >
             <TextBox.Style>

@@ -124,7 +124,7 @@ namespace Desktoper.ViewModel
         {
             if (typeof(Program) == obj.GetType())
             {
-                if (DialogWindow.ShowDialog("Delete this program?") == true)
+                if (DialogWindow.ShowDialog("Delete this program?"))
                 {
                     ListOfItems.ListOfPrograms.Remove(SelectedProgram);
                 }
@@ -132,7 +132,7 @@ namespace Desktoper.ViewModel
 
             if (typeof(Site) == obj.GetType())
             {
-                if (DialogWindow.ShowDialog("Delete this site?") == true)
+                if (DialogWindow.ShowDialog("Delete this site?"))
                 {
                     ListOfItems.ListOfSites.Remove(SelectedSite);
                 }
@@ -140,7 +140,7 @@ namespace Desktoper.ViewModel
 
             if (typeof(UFile) == obj.GetType())
             {
-                if (DialogWindow.ShowDialog("Delete this file?") == true)
+                if (DialogWindow.ShowDialog("Delete this file?"))
                 {
                     ListOfItems.ListOfFiles.Remove(SelectedFile);
                 }

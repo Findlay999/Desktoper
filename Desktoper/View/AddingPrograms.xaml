@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/AddingProgramStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/GlobalStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -22,7 +23,7 @@
                 <DropShadowEffect ShadowDepth="0" Direction="360"/>
             </Grid.Effect>
         </Grid>
-        <Grid Name="Main" Margin="10" Background="#FFFFED7C">
+        <Grid Name="Main" Margin="10" Background="{StaticResource MainColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -32,9 +33,9 @@
             <TextBlock Grid.Row="0" Style="{StaticResource HeaderTB}"/>
 
             <StackPanel Name="MainPanel" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Width="150" Height="40" Content="Файл" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="File"/>
-                <Button Width="150" Height="40" Content="Ярлык" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="Label"/>
-                <Button Width="150" Height="40" Content="Ссылку" Margin="0" Command="{Binding ChangeVisiblePanel}" CommandParameter="Site"/>
+                <Button Content="Файл" Width="150" Command="{Binding ChangeVisiblePanel}" CommandParameter="File"/>
+                <Button Content="Ярлык" Width="150" Command="{Binding ChangeVisiblePanel}" CommandParameter="Label"/>
+                <Button Content="Ссылку" Width="150" Command="{Binding ChangeVisiblePanel}" CommandParameter="Site"/>
 
                 <StackPanel.Style>
                     <Style TargetType="StackPanel">
@@ -55,7 +56,7 @@
             </StackPanel>
 
             <Grid Name="AddingProgram" AllowDrop="False" Grid.Row="1">
-                <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" Margin="20">
+                <Border Grid.Row="1" Style="{StaticResource ContainerBorder}">
                     <StackPanel Name="ProgPanel" Drop="ProgPanel_Drop" AllowDrop="True" Background="Transparent"/>
                 </Border>
 
@@ -100,7 +101,7 @@
             </Grid>
 
             <Grid Name="AddingFile" Grid.Row="1">
-                <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" Margin="20">
+                <Border Grid.Row="1" Style="{StaticResource ContainerBorder}">
                     <StackPanel Drop="ProgPanel_Drop" AllowDrop="True" Background="Transparent"/>
                 </Border>
 
@@ -124,7 +125,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
-                    <Button Grid.Column="0" Height="40" Content="Назад" FontSize="14" Padding="0" Command="{Binding ChangeVisiblePanel}"/>
+                    <Button Content="Назад" Command="{Binding ChangeVisiblePanel}"/>
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Hidden"/>
@@ -138,7 +139,7 @@
                 </Grid>
 
                 <Grid Grid.Column="2" >
-                    <Button Content="Добавить" Height="40" FontSize="14" Padding="0" Command="{Binding AddSite}"/>
+                    <Button Content="Добавить" Command="{Binding AddSite}"/>
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Hidden"/>

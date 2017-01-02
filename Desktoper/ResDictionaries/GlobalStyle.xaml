@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Desktoper.ResDictionaries">
+
+    <SolidColorBrush x:Key="MainColor">
+        #FFFFED7C
+    </SolidColorBrush>
+
+    <SolidColorBrush x:Key="MainBackground">
+        #FF3DA8A3
+    </SolidColorBrush>
+
+    <Color x:Key="MainBackgroundColor">
+        #FF3DA8A3
+    </Color>
+
+    <Style TargetType="TextBlock" x:Key="PanelHeaders">
+        <Setter Property="Margin" Value="20, 10, 0, 0 "/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+</ResourceDictionary>

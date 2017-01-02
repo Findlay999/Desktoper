@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/SettingsStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/GlobalStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -21,8 +22,8 @@
                 <DropShadowEffect/>
             </Grid.Effect>
         </Grid>
-        <Grid Margin="10" Background="#FFFFED7C">
-            <TextBlock Margin="20, 10, 0, 0" FontWeight="DemiBold" FontSize="18" Text="Настройки"/>
+        <Grid Margin="10" Background="{StaticResource MainColor}">
+            <TextBlock Style="{StaticResource PanelHeaders}" Text="Настройки"/>
 
             <StackPanel Margin="30, 50, 0, 0">
                 <StackPanel Orientation="Horizontal">

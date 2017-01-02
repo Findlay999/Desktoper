@@ -39,10 +39,17 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <Style TargetType="Border" x:Key="ContainerBorder">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Margin" Value="20"/>
+    </Style>
+    
     <Style TargetType="{x:Type Button}">
         <Setter Property="Background" Value="#FF6C6C6C" />
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
 
         <Setter Property="Template">

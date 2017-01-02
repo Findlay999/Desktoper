@@ -10,7 +10,13 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Converters:PathToImage x:Key="ImgConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/ProgramLB_Style.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Desktoper;component/ResDictionaries/GlobalStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Converters:PathToImage x:Key="ImgConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid Margin="0, 0, 0, 0" Background="White">
@@ -18,84 +24,7 @@
             <TabControl.Effect>
                 <DropShadowEffect/>
             </TabControl.Effect>
-            <TabControl.Resources>
-                <Style TargetType="TabControl">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TabControl}">
-                                <Grid KeyboardNavigation.TabNavigation="Local">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <TabPanel x:Name="HeaderPanel"
-                                              Grid.Column="1"
-                                              Panel.ZIndex="1"
-                                              Margin="0,0,4,-1"
-                                              IsItemsHost="True"
-                                              KeyboardNavigation.TabIndex="1"
-                                              Background="Transparent" />
-
-                                    <Border x:Name="Border"
-                                            Grid.Column="0"
-                                            BorderThickness="0, 0, 0, 0"
-                                            KeyboardNavigation.TabNavigation="Local"
-                                            KeyboardNavigation.DirectionalNavigation="Contained"
-                                            KeyboardNavigation.TabIndex="2">
-
-                                        <Border.Background>
-                                            <SolidColorBrush Color="#FF3DA8A3"/>
-                                        </Border.Background>
-
-                                        <Border.BorderBrush>
-                                            <SolidColorBrush Color="Black"/>
-                                        </Border.BorderBrush>
-
-                                        <ContentPresenter x:Name="PART_SelectedContentHost"
-                                          Margin="0"
-                                          ContentSource="SelectedContent" />
-                                    </Border>
-                                </Grid>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-                <Style TargetType="TabItem">
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <ContentPresenter Content="{TemplateBinding Content}">
-                                    <ContentPresenter.LayoutTransform>
-                                        <RotateTransform Angle="0" />
-                                    </ContentPresenter.LayoutTransform>
-                                </ContentPresenter>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Name="Border" BorderThickness="2" Height="50" BorderBrush="#FF3DA8A3" CornerRadius="0,4,4,0" Margin="0,0,0,10">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="10,2"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="#FF3DA8A3" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
+           
             <TabItem Name="Labels" Header="Ярлыки" FontSize="16">
                 <TabPanels:LabelsTabControl/>
             </TabItem>
