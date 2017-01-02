@@ -16,7 +16,7 @@ namespace Desktoper.ViewModel
     {
         #region Site data variables
         public string SiteName { get; set; }
-        public string SiteURL  { get; set; }
+        public string SiteURL { get; set; }
         public string SiteDesc { get; set; }
         #endregion
 
@@ -75,7 +75,7 @@ namespace Desktoper.ViewModel
         #region Command methods
         private void AddSiteToList(object obj)
         {
-            
+
             string imgPath = null;
             try
             {
@@ -103,6 +103,7 @@ namespace Desktoper.ViewModel
             if (site.Name != null && !Items.ListOfSites.Any(x => x.URL == site.URL || x.Name == site.Name))
             {
                 Items.ListOfSites.Add(site);
+                DialogWindow.Show("Ccылка была успешно добавлена");
             }
             else
             {
@@ -112,9 +113,9 @@ namespace Desktoper.ViewModel
 
         private void ChangePanel(object obj)
         {
-            foreach(string type in Types)
+            foreach (string type in Types)
             {
-                if(type == (obj as string))
+                if (type == (obj as string))
                 {
                     VisiblePanelKey = type; // получаем тип окна которое нужно отобразить
                     return;
@@ -143,7 +144,8 @@ namespace Desktoper.ViewModel
 
         private void AddFiles(string[] FilesForAdd)
         {
-            foreach(string File in FilesForAdd)
+            int count = 0;
+            foreach (string File in FilesForAdd)
             {
                 FileInfo info = new FileInfo(File);
                 UFile file = new UFile()
@@ -154,19 +156,30 @@ namespace Desktoper.ViewModel
                 };
 
                 //проверка наличия такого файла
-                if(!Items.ListOfFiles.Any(x => x.FilePath == file.FilePath))
+                if (!Items.ListOfFiles.Any(x => x.FilePath == file.FilePath))
                 {
                     Items.ListOfFiles.Add(file);
+                    count++;
                 }
                 else
                 {
                     DialogWindow.Show("Не удалось добавить файл. Возможно, такой файл уже был добавлен!");
                 }
             }
+            if (count == 1)
+            {
+                DialogWindow.Show("Файл был успешно добавлен!");
+            }
+            if (count > 1)
+            {
+                string textPart = count < 5 ? "файла" : "файлов";
+                DialogWindow.Show(count + " " + textPart + " было успешно добавлено!");
+            }
         }
 
         private void AddPrograms(string[] ProgramsForAdd)
         {
+            int count = 0;
             foreach (string Prog in ProgramsForAdd)
             {
                 FileInfo info = new FileInfo(Prog);
@@ -182,11 +195,23 @@ namespace Desktoper.ViewModel
 
                 //проверка наличия ссылки на такую же программу
                 if (!Items.ListOfPrograms.Any(x => x.WorkingDirectory == prog.WorkingDirectory))
+                {
                     Items.ListOfPrograms.Add(prog);
+                    count++;
+                }
                 else
                 {
                     DialogWindow.Show("Не удалось добавить ярлык. Возможно, такой ярлык уже был добавлен!");
                 }
+            }
+            if (count == 1)
+            {
+                DialogWindow.Show("Ярлык был успешно добавлен!");
+            }
+            if (count > 1)
+            {
+                string textPart = count < 5 ? "ярлыка" : "ярлыков";
+                DialogWindow.Show(count + " " + textPart + " было успешно добавлено!");
             }
         }
         #endregion

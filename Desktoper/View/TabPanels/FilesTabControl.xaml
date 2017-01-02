@@ -36,6 +36,19 @@
                 </Style>
             </Grid.Style>
         </Grid>
+
+        <TextBlock Grid.ColumnSpan="2" Panel.ZIndex="2" FontSize="15" Margin="25" FontWeight="DemiBold" Text='У вас еще нет файлов. Чтобы добавить файл, нажмите кнопку "Добавить" в Меню' TextWrapping="Wrap">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ListOfItems.ListOfFiles.Count, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
         
         <ListBox Name="List" Grid.Column="0" Margin="10"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
